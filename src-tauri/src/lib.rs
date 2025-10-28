@@ -1,6 +1,6 @@
 use serde::Deserialize;
 use std::{fs, path::PathBuf};
-use tauri::{Manager, url::Url};
+use tauri::{Manager, Url};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
