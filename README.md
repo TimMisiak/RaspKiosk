@@ -6,7 +6,7 @@ This is a simple tauri app that can be used as a full screen "kiosk" on a raspbe
 start_url: "https://example.com"
 ```
 
-Then add a service config, e.g. at `sudo nano /etc/systemd/system/kiosk.service`
+Then add a service config, e.g. at `sudo nano /etc/systemd/system/kiosk.service`.
 
 ```
 [Unit]
@@ -14,7 +14,7 @@ Description=RaspKiosk
 After=labwc.service graphical.target
 
 [Service]
-User=tim
+User=1000
 Environment=XDG_RUNTIME_DIR=/run/user/1000
 Environment=WAYLAND_DISPLAY=wayland-0
 Environment=DISPLAY=:0
