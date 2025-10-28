@@ -28,7 +28,8 @@ jobs:
             libxdo-dev \
             libssl-dev \
             libayatana-appindicator3-dev \
-            librsvg2-dev
+            librsvg2-dev \
+            xdg-utils
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
