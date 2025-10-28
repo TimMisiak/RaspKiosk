@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.tauri.app/config.schema.json",
+  "package": {
+    "productName": "RaspKiosk",
+    "version": "0.1.0"
+  },
+  "tauri": {
+    "allowlist": {
+      "all": false
+    },
+    "bundle": {
+      "active": true,
+      "identifier": "com.raspkiosk.app"
+    },
+    "windows": []
+  },
+  "build": {
+    "beforeBuildCommand": "",
+    "beforeDevCommand": "",
+    "devPath": "../dist",
+    "distDir": "../dist"
+  }
+}

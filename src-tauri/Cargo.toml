@@ -1,0 +1,18 @@
+[package]
+name = "rasp-kiosk"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_yaml = "0.9"
+tauri = { version = "1", features = ["wry", "window-create"] }
+url = { version = "2", features = ["serde"] }
+thiserror = "1"
+
+[build-dependencies]
+tauri-build = { version = "1", features = [] }
+
+[dev-dependencies]
+tempfile = "3"
