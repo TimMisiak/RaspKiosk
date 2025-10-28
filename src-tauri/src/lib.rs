@@ -1,5 +1,8 @@
 use serde::Deserialize;
-use std::{fs, path::PathBuf};
+use std::{
+    fs,
+    path::{Path, PathBuf},
+};
 use tauri::{Manager, Url};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -26,7 +29,11 @@ fn default_start_url() -> String {
     "https://example.com".to_string()
 }
 
-fn config_path() -> PathBuf {
+fn config_path(cli_path: Option<&Path>) -> PathBuf {
+    if let Some(path) = cli_path {
+        return path.to_path_buf();
+    }
+
     let cwd_path = PathBuf::from("kioskconfig.yaml");
     if cwd_path.exists() {
         return cwd_path;
@@ -43,8 +50,8 @@ fn config_path() -> PathBuf {
     cwd_path
 }
 
-fn load_config() -> KioskConfig {
-    let path = config_path();
+fn load_config(cli_path: Option<&Path>) -> KioskConfig {
+    let path = config_path(cli_path);
     match fs::read_to_string(&path) {
         Ok(contents) => match serde_yaml::from_str(&contents) {
             Ok(config) => config,
@@ -68,15 +75,18 @@ fn load_config() -> KioskConfig {
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
-    let config = load_config();
-    let start_url = Url::parse(&config.start_url)
-        .unwrap_or_else(|err| {
-            eprintln!(
-                "Invalid start_url '{}' in kiosk configuration: {err}. Falling back to about:blank.",
-                config.start_url
-            );
-            Url::parse("about:blank").expect("about:blank is a valid URL")
-        });
+    run_with_config_path(None);
+}
+
+pub fn run_with_config_path(config_path: Option<PathBuf>) {
+    let config = load_config(config_path.as_deref());
+    let start_url = Url::parse(&config.start_url).unwrap_or_else(|err| {
+        eprintln!(
+            "Invalid start_url '{}' in kiosk configuration: {err}. Falling back to about:blank.",
+            config.start_url
+        );
+        Url::parse("about:blank").expect("about:blank is a valid URL")
+    });
 
     let start_url_for_window = start_url.clone();
 
